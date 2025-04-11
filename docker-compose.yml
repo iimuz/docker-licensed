@@ -1,0 +1,14 @@
+services:
+  licensed:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+        read_only: true
+    working_dir: /app
+    # デフォルトではヘルプを表示します。実際に使用する際は必要なコマンドで上書きします
+    # 例: docker-compose run licensed licensed cache
+    command: licensed --help
