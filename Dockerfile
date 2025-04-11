@@ -16,7 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 FROM ruby:3.2-slim
 
 # Goのバージョン指定
-ENV GO_VERSION=1.23.7
+ENV GO_VERSION=1.23.8
 
 # 必要なランタイム依存関係のみインストール
 RUN apt-get update && apt-get install -y --no-install-recommends \
