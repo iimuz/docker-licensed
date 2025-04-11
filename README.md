@@ -1,6 +1,8 @@
 # Docker Licensed
 
-licensedツールをDocker環境で実行するためのリポジトリです。このコンテナを使用して、プロジェクトの依存ライセンスをチェックできます。
+[GitHub licensed](https://github.com/licensee/licensed)ツールをDocker環境で実行するためのリポジトリです。このコンテナを使用して、プロジェクトの依存ライセンスをチェックできます。
+
+[GitHub CLI (gh)](https://cli.github.com/)とGo言語は、licensedを利用するプロジェクトにgoとprivateリポジトリがあるため導入しています。
 
 ## 環境構築
 
