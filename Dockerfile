@@ -3,13 +3,16 @@ FROM ruby:3.2-slim AS builder
 # パッケージとlicensedをインストールするビルドステージ
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
-    libgit2-dev \
     pkg-config \
     cmake \
     build-essential \
+    libssl-dev \
+    zlib1g-dev \
+    libzstd-dev \
+    libssh2-1-dev \
+    && gem install licensed -v 4.4.0 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && gem install licensed -v 4.4.0 \
     && gem cleanup
 
 # 実行用の軽量イメージ
@@ -21,7 +24,9 @@ ENV GO_VERSION=1.23.8
 # 必要なランタイム依存関係のみインストール
 RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
-    libgit2-dev \
+    libssl3t64 \
+    libssh2-1t64 \
+    libzstd1 \
     wget \
     curl \
     gnupg \
@@ -36,9 +41,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
     # Goのインストール
-    && wget -q https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz \
-    && tar -C /usr/local -xzf go${GO_VERSION}.linux-amd64.tar.gz \
-    && rm go${GO_VERSION}.linux-amd64.tar.gz
+    && ARCH=$(dpkg --print-architecture) \
+    && if [ "$ARCH" = "amd64" ]; then GO_ARCH="amd64"; elif [ "$ARCH" = "arm64" ]; then GO_ARCH="arm64"; else GO_ARCH="$ARCH"; fi \
+    && wget -q https://golang.org/dl/go${GO_VERSION}.linux-${GO_ARCH}.tar.gz \
+    && tar -C /usr/local -xzf go${GO_VERSION}.linux-${GO_ARCH}.tar.gz \
+    && rm go${GO_VERSION}.linux-${GO_ARCH}.tar.gz
 
 # Go環境変数の設定
 ENV PATH=$PATH:/usr/local/go/bin
