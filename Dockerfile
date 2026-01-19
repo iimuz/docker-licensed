@@ -56,10 +56,16 @@ RUN mkdir -p $GOPATH/src $GOPATH/bin
 # ビルドステージからlicensedをコピー
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
 
+# entrypoint.shをコピーして実行可能にする
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # 非rootユーザーに切り替え
 RUN groupadd -r appuser && useradd -r -g appuser -m -s /bin/bash appuser
 WORKDIR /app
 RUN mkdir -p /app && chown -R appuser:appuser /app \
     && mkdir -p $GOPATH && chown -R appuser:appuser $GOPATH
 USER appuser
+
+ENTRYPOINT ["/entrypoint.sh"]
 CMD ["licensed", "--help"]

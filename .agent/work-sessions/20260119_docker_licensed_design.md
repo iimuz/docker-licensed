@@ -3,8 +3,6 @@ title: Docker Licensed 設計書
 description: GitHub licensed ツールをDockerコンテナで実行するための統合設計文書
 ---
 
-# Docker Licensed 設計書
-
 ## 1. システム概要
 
 ## 背景と目的
